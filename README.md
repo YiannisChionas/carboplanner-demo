@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Carboplanner Demo — Intern Case 2 (Plan Explorer)
 
-## Getting Started
+A small React (Next.js 13+, App Router) + TypeScript application implementing a **Plan Explorer**:  
+a filterable / sortable table that loads data from a local JSON file.
 
-First, run the development server:
+---
 
-```bash
+## Features
+- Load data from local JSON (`intern-case-2.json`)
+- Strong typing with `PlanItem`, `PlanType`, `SortKey`, `SortOrder`
+- Filtering (text search + type filter)
+- Sorting (by column asc/desc)
+- Table view with clickable rows → inline modal detail view
+- Pure functions for filter/sort with unit tests (Vitest)
+- Minimal but clean UI/UX
+
+---
+
+## Architecture
+
+The project is structured in phases/layers:
+
+1. **Data layer**  
+   - `src/app/data/intern-case-2.json`: static dataset  
+   - `src/app/lib/types.ts`: strong typing
+
+2. **Business logic (pure utils)**  
+   - `src/app/lib/filter.ts`: `filterByQueryAndType`  
+   - `src/app/lib/sort.ts`: `sortBy`  
+   - Tests located in `src/test/` (using Vitest + jsdom)
+
+3. **UI Components**  
+   - `PlanExplorerPage`: main entry point  
+   - `PlanTable`: table with sortable headers and rows  
+   - `FiltersBar`: text search + type dropdown  
+   - `PlanDetailModal`: inline modal for item details
+
+4. **State management**  
+   - Local React state (`useState`) inside page component  
+   - No external global state (kept simple for demo purposes)
+
+5. **Accessibility & UX (Phase 5, optional)**  
+   - Sortable headers with `aria-sort`  
+   - Focus trap in modal  
+   - Keyboard navigability
+
+---
+
+## Testing
+
+The project uses **Vitest**:
+
+- Unit tests for filter/sort utils (`src/test/*.test.ts`)  
+- jsdom environment (ready for component tests in the future)  
+- All tests pass 
+
+npm run test
+
+---
+
+## Credits
+The base idea and dataset come from the Intern Case.
+I used ChatGPT (AI assistance) to help with the project structure, file blueprints, and phase breakdown.
+The actual implementation, integration, styling, and debugging were done manually.
+
+---
+
+## Extension ideas
+If there was more time, this could be extended with:
+
+Pagination / Virtualized table for large datasets
+
+Persistent filters (e.g. query params in the URL)
+
+Tag-based filtering (beyond type)
+
+Export to CSV/Excel
+
+Favorites (save selected items in localStorage)
+
+Server-side mode: API route serving dynamic data instead of static JSON
+
+UI polish using Tailwind or shadcn/ui components
+
+---
+
+## Run locally
+clone project from git
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Visit: http://localhost:3000/plan-explorer
