@@ -2,7 +2,7 @@ export type PlanType = 'meal' | 'training';
 
 export interface PlanItem {
   id: number;          
-  type: PlanType;      
+  type: PlanType; // 'meal' | 'training'
   title: string;       
   kcal: number;        
   tags: string[];      
